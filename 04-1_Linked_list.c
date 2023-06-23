@@ -4,5 +4,38 @@
 typedef struct_node
 {
     int data;
+    struct_node *next;
+
+}Node;
+
+int main(void)
+{
+    struct_node *head = NULL;
+    struct_node *tail = NULL;
+    struct_node *cur = NULL;
+
+    struct_node *newNode = NULL;
+    int readData;
+    while(1)
+    {
+        printf("자연수 입력: ");
+        scanf("%d", &readData);
+        if (readData <1)
+            break;
+        
+        newNode = (struct_node*) malloc(sizeof(struct_node));
+        newNode->data =readData;
+        newNode->next=NULL;
+
+        if (head == NULL)
+            head = newNode;
+        else
+            tail->next=newNode;
+        
+        tail = newNode;
+
+    }
+    printf("\n");
+
     
 }
