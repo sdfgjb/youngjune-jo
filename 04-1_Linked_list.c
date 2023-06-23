@@ -37,5 +37,5 @@ int main(void)
     }
     printf("\n");
 
-    
+    printf("입력 받은 데이터의 전체 출력!\n");
 }
