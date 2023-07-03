@@ -5,7 +5,7 @@
 
 typedef struct _node
 {
-    struct Edata *data;
+    struct _data *data;
     struct Node *next;
 }Node;
 
@@ -16,11 +16,11 @@ typedef struct _list{
     int numOf;
 
 }List;
-Node add_data(int num, char *name);
+Node *add_data(int num, char *name);
 
 void ListInit(List *plist);
 void add_list(List *plist, Node *pNode);
 
-void LNext(List *plist);
+void LNext_dangik(List *plist);
 
 #endif

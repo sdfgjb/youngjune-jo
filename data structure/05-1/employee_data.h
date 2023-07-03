@@ -4,7 +4,7 @@
 #define true 1
 #define false 0
 
-typedef struct data{
+typedef struct _data{
     int num;
     char *name;
 }Edata;
