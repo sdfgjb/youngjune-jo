@@ -1,3 +1,4 @@
+// 04-1 여기서 연결리스트의 머리에 노드가 추가되도록 변경
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -28,13 +29,11 @@ int main(void)
 		newNode = (Node*)malloc(sizeof(Node));
 		newNode->data = readData;
 		newNode->next = NULL;
-
-		if(head == NULL)
-			head = newNode;
+		if (tail = NULL)
+			tail=newNode;
 		else
-			tail->next = newNode;
-
-		tail = newNode;
+			newNode->next=head;
+		head = newNode;
 	}
 	printf("\n");
 
