@@ -17,6 +17,10 @@ int main(void)
 	Node * newNode = NULL;
 	int readData;
 
+    newNode = (Node*)malloc(sizeof(Node));
+
+    head = newNode;
+    tail= newNode;
 	/**** 데이터를 입력 받는 과정 ****/
 	while(1)
 	{
@@ -30,12 +34,9 @@ int main(void)
 		newNode->data = readData;
 		newNode->next = NULL;
 
-		if(head == NULL)
-			head = newNode;
-		else
-			tail->next = newNode;
+        tail->next = newNode;
+        tail= newNode;
 
-		tail = newNode;
 	}
 	printf("\n");
 
@@ -48,7 +49,7 @@ int main(void)
 	else 
 	{
 		cur = head; 
-		printf("%d  ", cur->data);   // 첫 번째 데이터 출력
+		//printf("%d  ", cur->data);   // 첫 번째 데이터 출력
 		
 		while(cur->next != NULL)    // 두 번째 이후의 데이터 출력
 		{
@@ -68,8 +69,8 @@ int main(void)
 		Node * delNode = head;
 		Node * delNextNode = head->next;
 
-		printf("%d을(를) 삭제합니다. \n", head->data);
-		free(delNode);    // 첫 번째 노드의 삭제
+		//printf("%d을(를) 삭제합니다. \n", head->data);
+		//free(delNode);    // 첫 번째 노드의 삭제
 		
 		while(delNextNode != NULL)    // 두 번째 이후의 노드 삭제 위한 반복문
 		{
