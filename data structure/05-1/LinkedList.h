@@ -18,9 +18,10 @@ typedef struct _list{
 }List;
 Node *add_data(int num, char *name);
 
-void ListInit(List *plist);
+void ListInit(List *plist);  //리스트 처음 추가
 void add_list(List *plist, Node *pNode);
 
-void LNext_dangik(List *plist);
+void LNext_dangik(List *plist); 
+void showyourlist(List *plist);
 
 #endif
