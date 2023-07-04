@@ -2,32 +2,32 @@
 #include "employee_data.h"
 #include "stdio.h"
 #include "stdlib.h"
-
-Node *add_data(int data_num,char *data_name){
-    Node *newNode = (Node*)malloc(sizeof(Node));
-    newNode->next = NULL;
-    newNode->data->num = data_num;
-    newNode->data->name = data_name;
-    return newNode;
-}
+#include "string.h"
 
 void ListInit(List *plist){
-    plist -> tail = (Node*)malloc(sizeof(Node));
-
-    plist->tail->next=plist->tail;
-
+    plist -> tail = NULL;
     plist -> cur = NULL;
     plist -> before = NULL;
-    plist->numOf = 0;
+    plist -> numOf = 0;
 }
-
+void add_data(List *plist,int data_num,char *data_name)
+{
+    Node *newNode = (Node*)malloc(sizeof(Node));
+    newNode->data->num = data_num;
+    newNode->data->name = data_name;
+    add_list(plist,newNode);
+}
 void add_list(List *plist,Node *pNode){
-    pNode->next=plist->tail;
-    plist->tail->next=pNode;
-    plist->tail->data=pNode->data;
-    
+    if(plist->numOf == 0){
+        plist -> tail = pNode;
+        plist -> tail -> next = pNode;
+        }
+    else{
+        pNode->next = plist->tail->next;
+        plist->tail->next = pNode;
+        plist->tail = pNode;
+    }
     plist->numOf++;
-
 }
 int LFirst(List *plist,char *dname){
     while(1){
@@ -47,10 +47,10 @@ int LNext(List *plist){
         plist->before = plist->cur;
         plist->cur= plist->cur->next;
     }
-    
+    return true;
 }
 void Next_dangik(List *plist,char *dname,int dnum){
-    int i;
+    int i=0;
     LFirst(plist,dname);
     while(1){
         if(i == dnum){
