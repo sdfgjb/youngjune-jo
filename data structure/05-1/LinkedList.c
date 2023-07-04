@@ -13,7 +13,8 @@ Node *add_data(int data_num,char *data_name){
 
 void ListInit(List *plist){
     plist -> tail = (Node*)malloc(sizeof(Node));
-    plist->tail->next=NULL;
+
+    plist->tail->next=plist->tail;
 
     plist -> cur = NULL;
     plist -> before = NULL;
@@ -28,19 +29,41 @@ void add_list(List *plist,Node *pNode){
     plist->numOf++;
 
 }
-
-void showyourlist(List *plist){
-    plist->cur=plist->tail->next;
-
+int LFirst(List *plist,char *dname){
     while(1){
-        if(plist->cur == NULL){
-            continue;
-        }
-        printf("%d %s\n",plist->cur->data->num,plist->cur->data->name);
-        plist->cur=plist->tail->next;
-
-        if(plist->cur==NULL){
+        if(plist->cur->data->name == dname){
             break;
         }
+        else{
+            LNext(plist);
+        }
     }
+    return true;
+}
+int LNext(List *plist){
+    plist->before = plist->cur;
+    plist->cur= plist->cur->next;
+    if(plist->cur == NULL){
+        plist->before = plist->cur;
+        plist->cur= plist->cur->next;
+    }
+    
+}
+void Next_dangik(List *plist,char *dname,int dnum){
+    int i;
+    LFirst(plist,dname);
+    while(1){
+        if(i == dnum){
+            showyourinfo(plist);
+            break;
+        }  
+        else{
+            LNext(plist);
+            i++;
+        }
+    }
+}
+void showyourinfo(List *plist){
+    printf("당직 이름 : %s \n",plist->cur->data->name);
+    printf("당직 사번 : %d \n",plist->cur->data->num);
 }

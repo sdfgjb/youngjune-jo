@@ -8,7 +8,5 @@ typedef struct _data{
     int num;
     char *name;
 }Edata;
- 
-Edata dangik_info(int num, char * name);
 
 #endif

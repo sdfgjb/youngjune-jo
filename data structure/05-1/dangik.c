@@ -17,12 +17,6 @@ int main(void)
     add_list(first,c);
     add_list(first,d);
     
-    showyourlist(first);
-
-    free(a);
-    free(b);
-    free(c);
-    free(d);
-
-    free(first);
+    Next_dangik(first,"첫번째",2);
+    
 }
