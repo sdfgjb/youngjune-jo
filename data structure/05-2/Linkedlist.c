@@ -26,3 +26,11 @@ void LInsert(List *plist,Data pdata){
     (plist->numOfData)++;
 }
 
+int LFirst(List *plist, Data *pdata){
+    if(plist->head->next == plist -> tail)
+        return false;
+
+    plist->cur = plist->head->next;
+    *pdata=plist->cur->data;
+    return true;
+}
