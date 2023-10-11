@@ -45,6 +45,8 @@ public:
     string toString();
     // render a version of the matrix
 
+    SparseMatrix AAT();
+
 private:
     int rows, cols, terms, capacity;
     MatrixTerm *smArray;

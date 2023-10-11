@@ -23,5 +23,6 @@ int main()
     cout << m.toString() << endl;
     cout << m.Transpose().toString() << endl;
     cout << m.FastTranspose().toString() << endl;
-    cout << m.Multiply(m).toString() << endl;
+    cout << m.Multiply(m.Transpose()).toString() << endl;
+    cout << m.AAT().toString() << endl;
  }

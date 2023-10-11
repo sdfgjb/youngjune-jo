@@ -35,7 +35,7 @@ void SparseMatrix::setvalue(int r, int c, int v) {
     // linear search version
     for (int i = 0; i < terms; i++) {
         if ((smArray[i].row == r) && (smArray[i].col == c)) {
-            smArray[i].value == v;
+            smArray[i].value = v;
             found = 1;
             break;
         }
@@ -143,20 +143,21 @@ void SparseMatrix::StoreSum(const int sum, const int r, const int c)
 }
 
 SparseMatrix SparseMatrix::Multiply(SparseMatrix b)
-{// Return the producr of the sparce matrices *this and b.
+{
     if (cols != b.rows)
         throw "Incompatible matrices for Multiply";
     SparseMatrix bXpose = b.FastTranspose();
     SparseMatrix d(rows, b.cols, 0);
-    int currRowIndex = 0,
-        currRowBegin = 0,
-        currRowA = smArray[0].row;
-    // set boundary conditions
-    if (terms == capacity) ChangeSize1D(terms+1);
+    int currRowIndex = 0, 
+        currRowBegin = 0, 
+        currRowA = smArray[0].row;    
+    if (terms == capacity) ChangeSize1D(terms+1); 
+    
     bXpose.ChangeSize1D(bXpose.terms+1);
     smArray[terms].row = rows;
     bXpose.smArray[b.terms].row = b.cols;
     bXpose.smArray[b.terms].col = -1;
+    
     int sum = 0;
     while (currRowIndex < terms)
     {// generate row currentRowA of d
@@ -167,9 +168,8 @@ SparseMatrix SparseMatrix::Multiply(SparseMatrix b)
             if (smArray[currRowIndex].row != currRowA)
             {// end of row currRowA
                 d.StoreSum(sum, currRowA, currColB);
-                sum = 0;    // reset sum
+                sum = 0;    
                 currRowIndex = currRowBegin;
-                // advance to next column
                 while (bXpose.smArray[currColIndex].row == currColB)
                     currColIndex++;
                 currColB = bXpose.smArray[currColIndex].row;
@@ -183,7 +183,7 @@ SparseMatrix SparseMatrix::Multiply(SparseMatrix b)
                 currColB = bXpose.smArray[currColIndex].row;
             } else 
             if (smArray[currRowIndex].col < bXpose.smArray[currColIndex].col)
-                currRowIndex++;     // advance to the next term in row
+                currRowIndex++;     
             else 
             if (smArray[currRowIndex].col == bXpose.smArray[currColIndex].col)
             {// add to sum
@@ -192,19 +192,22 @@ SparseMatrix SparseMatrix::Multiply(SparseMatrix b)
             }
             else
                 currColIndex++;     // next term in currColB
-        } // end of while (currColIndex <= b.terms)
-        while (smArray[currRowIndex].row == currRowA) // advance to next row
+        }
+        
+        while (smArray[currRowIndex].row == currRowA)
             currRowIndex++;
         currRowBegin = currRowIndex;
         currRowA = smArray[currRowIndex].row;
-    } // end of while (currRowIndex < terms)
+        
+        
+    } 
     return d;
 }
 
 string SparseMatrix::toString()
 {
     string output = "";
-    MatrixTerm term;
+    
     for (int i = 0; i < terms; i++) {
         MatrixTerm term = smArray[i];
         output += "smArray[" + to_string(term.row) + "][" + to_string(term.col) + "] = ";
@@ -227,3 +230,61 @@ void classic(SparseMatrix a, SparseMartix b) {
         }
 }
 *********************************************/
+
+SparseMatrix SparseMatrix::AAT() {
+    
+    SparseMatrix result(rows,rows,rows^2);
+    int cur_a_row = smArray[0].row,
+        cur_a_index = 0;
+    int sum = 0,
+        begin = 0;
+    int cur_b_row = smArray[0].row,
+        cur_b_index = 0;
+    
+    while (cur_a_index < terms) {
+        
+        while (cur_b_index<= terms){
+            
+            
+            if (smArray[cur_a_index].row != cur_a_row) {
+                result.StoreSum(sum, cur_a_row, cur_b_row);
+                if(cur_a_row != cur_b_row)
+                    result.setvalue(cur_a_row, cur_b_row, sum);
+                sum = 0;
+                cur_a_index = begin;
+                while (smArray[cur_b_index].row == cur_b_row)
+                    cur_b_index++;
+                cur_b_row = smArray[cur_b_index].row;
+            }
+            else if (smArray[cur_b_index].row != cur_b_row) {
+                result.StoreSum(sum, cur_a_row, cur_b_row);
+                if (cur_a_row != cur_b_row)
+                    result.setvalue(cur_a_row, cur_b_row, sum);
+                sum = 0;
+                cur_a_index = begin;
+                cur_b_row = smArray[cur_b_index].row;
+            }
+            else if (smArray[cur_a_index].col < smArray[cur_b_index].col) {
+                cur_a_index++;
+            }
+            else if (smArray[cur_a_index].col == smArray[cur_b_index].col) {
+                sum += smArray[cur_a_index].value * smArray[cur_b_index].value;
+                cur_a_index++; cur_b_index++;
+            }
+            else
+            {
+                cur_b_index++;
+            }
+            
+        }
+        while (smArray[cur_a_index].row == cur_a_row)
+            cur_a_index++;
+        cur_a_row = smArray[cur_a_index].row;
+        begin = cur_a_index;
+        cur_b_index = cur_a_index;
+        cur_b_row = smArray[cur_b_index].row;
+        
+
+    }
+    return result;
+}
