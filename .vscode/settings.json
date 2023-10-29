@@ -1,0 +1,16 @@
+{
+    "files.associations": {
+        "iostream": "cpp",
+        "vector": "cpp",
+        
+            "explorer.sortOrder": "type",
+            "files.exclude": {
+                "**/*.o": true,
+                "**/*.dSYM": true,
+            },
+            "C_Cpp.errorSquiggles": "Disabled",
+            
+        
+    }
+    
+}
